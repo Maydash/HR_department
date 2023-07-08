@@ -85,6 +85,12 @@ class ParticipateInElections(models.Model):
     """Saýlawly edaralara gatnaşmagy"""
     note = models.CharField(verbose_name='Bellik', max_length=250)
 
+    def __str__(self):
+        return self.note
+
+    class Meta:
+        verbose_name = 'Saýlawly edaralara gatnaşmagy barada maglumat'
+        verbose_name_plural = 'Saýlawly edaralara gatnaşmagy barada maglumatlar'
 
 class Punishment(models.Model):
     """Düzgün nyzam jogapkärçiligine çekilmegi barada maglumat"""
