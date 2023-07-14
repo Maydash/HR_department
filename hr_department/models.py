@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Logos(models.Model):
     image = models.ImageField(upload_to='logo')
@@ -8,9 +9,67 @@ class Logos(models.Model):
         verbose_name_plural = ('logolar')
 
 
+
+class PersonInformation(models.Model):
+    """Esasy model"""
+    image = models.ImageField(upload_to='person_photo', blank=True, null=True)#TODO: surat ýüklenýän ýerini maslahatlaşmaly
+    last_name = models.CharField(verbose_name='Familiýasy', max_length=100)
+    first_name = models.CharField(verbose_name='Ady', max_length=100)
+    patronic_name = models.CharField(verbose_name='Atasynyň ady', max_length=100)
+    second_name = models.CharField(verbose_name='Gyz familiýasy', max_length=100, blank=True, null=True)
+    begining_of_work = models.DateField(verbose_name='Işe giren senesi:')
+    degree_of_work = models.CharField(verbose_name='Buýrugyň belgisi', max_length=50, blank=True, null=True)
+    order_of_work = models.CharField(verbose_name='Permanyň belgisi', max_length=50, blank=True, null=True)
+    birth_certificate_id = models.CharField(verbose_name='Dogluş hakynda şahadatnamasynyň belgisi', max_length=50)
+    passport_id = models.CharField(verbose_name='Pasport belgisi', max_length=50)
+    passport_address = models.CharField(verbose_name='Pasport kim tarapyndan berildi', max_length=250)
+    passport_date = models.DateField(verbose_name='Pasport berlen senesi')
+    date_of_birthday = models.DateField(verbose_name='Doglan senesi')
+    #TODO: yaşyny hasaplamaly
+    birthday_place = models.CharField(verbose_name='Doglan ýeri', max_length=250)
+    citizenship = models.CharField(verbose_name='Raýatlylygy', max_length=100)
+    nationality = models.CharField(verbose_name='Milleti', max_length=100)
+    address = models.CharField(verbose_name='Ýazgyda duran salgysy', max_length=250)
+    exactly_address = models.CharField(verbose_name='Hakyky salgysy salgysy', max_length=250)
+    # person_education = models.ForeignKey(PersonEducation, on_delete=models.CASCADE, verbose_name='Bilimi barada maglumat', related_name='person_education', blank=True, null=True)
+    # was_he_abroad = models.ForeignKey(WasHeAbroad, on_delete=models.CASCADE, verbose_name='Daşary ýurtda bolanmy', related_name='was_he_abroad', blank=True, null=True)
+    # state_awards = models.ForeignKey(StateAwards, on_delete=models.CASCADE, verbose_name='Döwlet sylaglary barada maglumat', related_name='state_awards', blank=True, null=True)
+    # work_experience = models.ForeignKey(WorkExperience, on_delete=models.CASCADE, verbose_name='Iş stažy barada maglumat', related_name='work_experience', blank=True, null=True)
+    # participate_in_elections = models.ForeignKey(ParticipateInElections, on_delete=models.CASCADE, verbose_name='Saýlawly edaralara gatnaşmagy', related_name='participate_in_elections', blank=True, null=True)
+    # punishment = models.ForeignKey(Punishment, on_delete=models.CASCADE, verbose_name='Düzgün nyzam jogapkärçiligine çekilmegi barada maglumat', related_name='punishment', blank=True, null=True)
+    # appreciation_letter = models.ForeignKey(AppreciationLetter, on_delete=models.CASCADE, verbose_name='Hormat hatlary barada maglumat', related_name='appreciation_letter', blank=True, null=True)
+    # rewards = models.ForeignKey(Rewards, on_delete=models.CASCADE, verbose_name='Döşe dakylýan nyşany barada maglumat',related_name='rewards', blank=True, null=True)
+    # vacation = models.ForeignKey(Vacation, on_delete=models.CASCADE, verbose_name='Esasy zähmet rugsady barada maglumat',related_name='vacation', blank=True, null=True)
+    # additional_vacation = models.ForeignKey(AdditionalVacation, on_delete=models.CASCADE, verbose_name='Goşmaça rugsady barada maglumat',related_name='additional_vacation', blank=True, null=True)
+    # health_vacation = models.ForeignKey(HealthVacation, on_delete=models.CASCADE, verbose_name='Zähmete ukypsyzlgy boýunça rugsady barada maglumat',related_name='health_vacation', blank=True, null=True)
+    # unpaid_leave = models.ForeignKey(UnpaidLeave, on_delete=models.CASCADE, verbose_name='Tölegsiz zähmet rugsady barada maglumat',related_name='unpaid_leave', blank=True, null=True)
+    # business_trip = models.ForeignKey(BusinessTrip, on_delete=models.CASCADE, verbose_name='Iş sapary barada maglumat',related_name='business_trip', blank=True, null=True)
+    # car_info = models.ForeignKey(CarInfo, on_delete=models.CASCADE, verbose_name='Awtoulagy barada maglumat',related_name='car_info', blank=True, null=True)
+    # criminal_liability = models.ForeignKey(CriminalLiability, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary jenaýat jogapkärçiligi barada maglumat',related_name='criminal_liability', blank=True, null=True)
+    # relatives_living_abroad = models.ForeignKey(RelativesLivingAbroad, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumat',related_name='relatives_living_abroad', blank=True, null=True)
+    foreign_languages = models.CharField(verbose_name='Haýsy daşary ýurt dillerini bilýär', max_length=100, blank=True, null=True)
+    is_election = models.CharField(verbose_name='Saýlawly edaralara gatnaşmagy', max_length=100)
+    height = models.SmallIntegerField(verbose_name='Boýy')
+    weight = models.SmallIntegerField(verbose_name='Agramy')
+    phone_number = models.CharField(verbose_name='Telefon belgisi', max_length=12, blank=True, null=True)
+    phone_number_1 = models.CharField(verbose_name='Telefon belgisi 2', max_length=12, blank=True, null=True)
+    marital_status = models.CharField(verbose_name='Maşgala ýagdaýy', max_length=100)
+    file = models.FileField(upload_to='files/', blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='person_author')
+    members = models.ManyToManyField(User, related_name='person_members', blank=True)
+    # TODO: maglumatlary word doc ýüklemek
+
+    def __str__(self):
+        return f'{self.last_name}, {self.first_name}'
+
+    class Meta:
+        verbose_name = 'Işgär'
+        verbose_name_plural = 'Işgärler'
+
+
 class PersonEducation(models.Model):
     """Bilimi barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person')
     place_of_university = models.CharField(verbose_name='Gutaran ýeri', max_length=100)#daşary ýutdy gutaranmy ýada içerki ýokary okuw jaýy
     name_of_university = models.CharField(verbose_name='Tamamlan okuw jaýy', max_length=250)
     date_of_finishing_university = models.DateField(verbose_name='Okuwy tamamlan ýyly')
@@ -36,7 +95,7 @@ class PersonEducation(models.Model):
 
 class WasHeAbroad(models.Model):
     """Daşary ýurtda bolanmy"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_WasHeAbroad')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_WasHeAbroad')
     name_of_country = models.CharField(verbose_name='Ýurduň ady', max_length=100)
     date = models.DateField(verbose_name='Senesi')
 
@@ -50,7 +109,7 @@ class WasHeAbroad(models.Model):
 
 class StateAwards(models.Model):
     """Döwlet sylaglary barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_StateAwards')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_StateAwards')
     name_of_award = models.CharField(verbose_name='Döwlet sylagynyň ady', max_length=250)
     order_id = models.CharField(verbose_name='Permanyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Permanyň senesi')
@@ -66,7 +125,7 @@ class StateAwards(models.Model):
 
 class WorkExperience(models.Model):
     """Iş stažy barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_WorkExperience')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_WorkExperience')
     total_experience = models.SmallIntegerField(verbose_name='Umumy iş döwri')
     experience_in_court = models.SmallIntegerField(verbose_name='Kazyýetde iş döwri')
     experience_in_army = models.SmallIntegerField(verbose_name='Harby gulluk döwri')
@@ -83,6 +142,7 @@ class WorkExperience(models.Model):
 
 class ParticipateInElections(models.Model):
     """Saýlawly edaralara gatnaşmagy"""
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär',related_name='person_ParticipateInElections')
     note = models.CharField(verbose_name='Bellik', max_length=250)
 
     def __str__(self):
@@ -94,7 +154,7 @@ class ParticipateInElections(models.Model):
 
 class Punishment(models.Model):
     """Düzgün nyzam jogapkärçiligine çekilmegi barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Punishment')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Punishment')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -109,7 +169,7 @@ class Punishment(models.Model):
 
 class AppreciationLetter(models.Model):
     """Hormat hatlary barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_AppreciationLetter')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_AppreciationLetter')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -124,7 +184,7 @@ class AppreciationLetter(models.Model):
 
 class Rewards(models.Model):
     """Döşe dakylýan nyşany barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Rewards')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Rewards')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -139,7 +199,7 @@ class Rewards(models.Model):
 
 class Vacation(models.Model):
     """Esasy zähmet rugsady barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Vacation')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_Vacation')
     name= models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -154,7 +214,7 @@ class Vacation(models.Model):
 
 class AdditionalVacation(models.Model):
     """Goşmaça rugsady barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_AdditionalVacation')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_AdditionalVacation')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -169,7 +229,7 @@ class AdditionalVacation(models.Model):
 
 class HealthVacation(models.Model):
     """Zähmete ukypsyzlgy boýunça rugsady barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_HealthVacation')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_HealthVacation')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -184,7 +244,7 @@ class HealthVacation(models.Model):
 
 class UnpaidLeave(models.Model):
     """Tölegsiz zähmet rugsady barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_UnpaidLeave')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_UnpaidLeave')
     name = models.CharField(verbose_name='Ady', max_length=250)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -199,7 +259,7 @@ class UnpaidLeave(models.Model):
 
 class BusinessTrip(models.Model):
     """Iş sapary barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_BusinessTrip')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_BusinessTrip')
     name_of_country = models.CharField(verbose_name='Ýurduň ady', max_length=100)
     order_id = models.CharField(verbose_name='Buýrugyň belgisi', max_length=20)
     order_date = models.DateField(verbose_name='Buýrugyň senesi')
@@ -216,7 +276,7 @@ class BusinessTrip(models.Model):
 
 class CarInfo(models.Model):
     """Awtoulagy barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_CarInfo')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_CarInfo')
     name = models.CharField(verbose_name='Awtoulagyň ady', max_length=70)
     date_manufacture = models.DateField(verbose_name='Öndürilen senesi')
     is_own = models.CharField(verbose_name='Awtoulag kimiň adyna resmilleşdirilen', max_length=100)
@@ -231,6 +291,7 @@ class CarInfo(models.Model):
 
 class CriminalLiability(models.Model):
     """Ýakyn garyndalaşlary jenaýat jogapkärçiligi barada maglumat"""
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_CriminalLiability')
     name = models.CharField(verbose_name='Ady', max_length=200)
     date = models.DateField(verbose_name='Senesi')
     court_info = models.CharField(verbose_name='Ady', max_length=200)
@@ -245,7 +306,7 @@ class CriminalLiability(models.Model):
 
 class RelativesLivingAbroad(models.Model):
     """Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumat"""
-    # person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_RelativesLivingAbroad')
+    person = models.ForeignKey(PersonInformation, on_delete=models.CASCADE, verbose_name='Işgär', related_name='person_RelativesLivingAbroad')
     name = models.CharField(verbose_name='Ady, Familiýasy', max_length=200)
     country_name = models.CharField(verbose_name='Ýurduň ady', max_length=100)
     start_date = models.DateField(verbose_name='Giden senesi')
@@ -258,57 +319,42 @@ class RelativesLivingAbroad(models.Model):
         verbose_name = 'Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumat'
         verbose_name_plural = 'Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumatlar'
 
+# class Form1(models.Model):
+#     major_degree = models.CharField(max_length=100, verbose_name='Hünär derejesi', blank=True, null=True)
+#     name = models.CharField(max_length=200, verbose_name='A.F.Aa')
+#     birthday = models.DateField(verbose_name='Doglan güni')
+#     nationality = models.CharField(max_length=50, verbose_name='Milleti')
+#     university = models.CharField(max_length=200, verbose_name='Tamamlan ýokary okuw jaýy')
+#     scientific_degree = models.CharField(verbose_name='Alymlyk derejesi', max_length=100)
+#     foreign_languages = models.CharField(verbose_name='Haýsy daşary ýurt dillerini bilýär', max_length=100, blank=True, null=True)
+#     was_he_abroad = models.TextField(verbose_name='Daşary ýurtda boldumy')
+#     rewards = models.TextField(verbose_name='Döwlet sylaglary')
+#     participate_in_elections = models.CharField(max_length=100, verbose_name='Saýlawly edaralara gatnaşmagy')
 
-class PersonInformation(models.Model):
-    """Esasy model"""
-    image = models.ImageField(upload_to='person_photo', blank=True, null=True)#TODO: surat ýüklenýän ýerini maslahatlaşmaly
-    last_name = models.CharField(verbose_name='Familiýasy', max_length=100)
-    first_name = models.CharField(verbose_name='Ady', max_length=100)
-    patronic_name = models.CharField(verbose_name='Atasynyň ady', max_length=100)
-    second_name = models.CharField(verbose_name='Gyz familiýasy', max_length=100)
-    begining_of_work = models.DateField(verbose_name='Işe giren senesi:')
-    degree_of_work = models.CharField(verbose_name='Buýrugyň belgisi', max_length=50, blank=True, null=True)
-    order_of_work = models.CharField(verbose_name='Permanyň belgisi', max_length=50, blank=True, null=True)
-    birth_certificate_id = models.CharField(verbose_name='Dogluş hakynda şahadatnamasynyň belgisi', max_length=50)
-    passport_id = models.CharField(verbose_name='Pasport belgisi', max_length=50)
-    passport_address = models.CharField(verbose_name='Pasport kim tarapyndan berildi', max_length=250)
-    passport_date = models.DateField(verbose_name='Pasport berlen senesi')
-    date_of_birthday = models.DateField(verbose_name='Doglan senesi')
-    #TODO: yaşyny hasaplamaly
-    birthday_place = models.CharField(verbose_name='Doglan ýeri', max_length=250)
-    citizenship = models.CharField(verbose_name='Raýatlylygy', max_length=100)
-    nationality = models.CharField(verbose_name='Milleti', max_length=100)
-    address = models.CharField(verbose_name='Ýazgyda duran salgysy', max_length=250)
-    exactly_address = models.CharField(verbose_name='Hakyky salgysy salgysy', max_length=250)
-    person_education = models.ForeignKey(PersonEducation, on_delete=models.CASCADE, verbose_name='Bilimi barada maglumat', related_name='person_education', blank=True, null=True)
-    was_he_abroad = models.ForeignKey(WasHeAbroad, on_delete=models.CASCADE, verbose_name='Daşary ýurtda bolanmy', related_name='was_he_abroad', blank=True, null=True)
-    state_awards = models.ForeignKey(StateAwards, on_delete=models.CASCADE, verbose_name='Döwlet sylaglary barada maglumat', related_name='state_awards', blank=True, null=True)
-    work_experience = models.ForeignKey(WorkExperience, on_delete=models.CASCADE, verbose_name='Iş stažy barada maglumat', related_name='work_experience', blank=True, null=True)
-    participate_in_elections = models.ForeignKey(ParticipateInElections, on_delete=models.CASCADE, verbose_name='Saýlawly edaralara gatnaşmagy', related_name='participate_in_elections', blank=True, null=True)
-    punishment = models.ForeignKey(Punishment, on_delete=models.CASCADE, verbose_name='Düzgün nyzam jogapkärçiligine çekilmegi barada maglumat', related_name='punishment', blank=True, null=True)
-    appreciation_letter = models.ForeignKey(AppreciationLetter, on_delete=models.CASCADE, verbose_name='Hormat hatlary barada maglumat', related_name='appreciation_letter', blank=True, null=True)
-    rewards = models.ForeignKey(Rewards, on_delete=models.CASCADE, verbose_name='Döşe dakylýan nyşany barada maglumat',related_name='rewards', blank=True, null=True)
-    vacation = models.ForeignKey(Vacation, on_delete=models.CASCADE, verbose_name='Esasy zähmet rugsady barada maglumat',related_name='vacation', blank=True, null=True)
-    additional_vacation = models.ForeignKey(AdditionalVacation, on_delete=models.CASCADE, verbose_name='Goşmaça rugsady barada maglumat',related_name='additional_vacation', blank=True, null=True)
-    health_vacation = models.ForeignKey(HealthVacation, on_delete=models.CASCADE, verbose_name='Zähmete ukypsyzlgy boýunça rugsady barada maglumat',related_name='health_vacation', blank=True, null=True)
-    unpaid_leave = models.ForeignKey(UnpaidLeave, on_delete=models.CASCADE, verbose_name='Tölegsiz zähmet rugsady barada maglumat',related_name='unpaid_leave', blank=True, null=True)
-    business_trip = models.ForeignKey(BusinessTrip, on_delete=models.CASCADE, verbose_name='Iş sapary barada maglumat',related_name='business_trip', blank=True, null=True)
-    car_info = models.ForeignKey(CarInfo, on_delete=models.CASCADE, verbose_name='Awtoulagy barada maglumat',related_name='car_info', blank=True, null=True)
-    criminal_liability = models.ForeignKey(CriminalLiability, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary jenaýat jogapkärçiligi barada maglumat',related_name='criminal_liability', blank=True, null=True)
-    relatives_living_abroad = models.ForeignKey(RelativesLivingAbroad, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumat',related_name='relatives_living_abroad', blank=True, null=True)
-    foreign_languages = models.CharField(verbose_name='Haýsy daşary ýurt dillerini bilýär', max_length=100, blank=True, null=True)
-    is_election = models.CharField(verbose_name='Saýlawly edaralara gatnaşmagy', max_length=100)
-    height = models.SmallIntegerField(verbose_name='Boýy')
-    weight = models.SmallIntegerField(verbose_name='Agramy')
-    phone_number = models.CharField(verbose_name='Telefon belgisi', max_length=12, blank=True, null=True)
-    phone_number_1 = models.CharField(verbose_name='Telefon belgisi 2', max_length=12, blank=True, null=True)
-    marital_status = models.CharField(verbose_name='Maşgala ýagdaýy', max_length=100)
-    file = models.FileField(upload_to='files/', blank=True, null=True)
-    # TODO: maglumatlary word doc ýüklemek
 
-    def __str__(self):
-        return f'{self.last_name}, {self.first_name}'
 
-    class Meta:
-        verbose_name = 'Işgär'
-        verbose_name_plural = 'Işgärler'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ixe#fc8yz@12dw2p&uqo6(8v^gqcaeihu#)lxdv_r7-&lt09ul
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -130,3 +130,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GRAPPELLI_ADMIN_TITLE = 'Türkmenistanyň Ýokary kazyýeti'
