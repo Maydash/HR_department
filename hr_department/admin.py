@@ -1,82 +1,82 @@
 from django.contrib import admin
 from .models import *
 
-class PersonEducationInline(admin.TabularInline):
+class PersonEducationInline(admin.StackedInline):
     model = PersonEducation
     fields = ('place_of_university', 'name_of_university', 'date_of_finishing_university', 'diploma_id', 'name_of_academy', 'date_of_finishing_academy', 'academy_diploma_id', 'remote', 'full_time', 'confirmation_of_education', 'date_of_confirmation', 'education_degree', 'major', 'scientific_degree')
     extra = 1
 
-class WasHeAboardInline(admin.TabularInline):
+class WasHeAboardInline(admin.StackedInline):
     model = WasHeAbroad
     fields = ('person', 'name_of_country', 'date')
     extra = 1
 
-class StateAwardsInline(admin.TabularInline):
+class StateAwardsInline(admin.StackedInline):
     model = StateAwards
     fields = ('name_of_award', 'order_id', 'order_date')
     extra = 1
 
-class WorkExperienceInline(admin.TabularInline):
+class WorkExperienceInline(admin.StackedInline):
     model = WorkExperience
     fields = ('total_experience', 'experience_in_court', 'experience_in_army', 'experience_in_education', 'experience_in_last_position')
     extra = 1
 
-class ParticipateInElectionsInline(admin.TabularInline):
+class ParticipateInElectionsInline(admin.StackedInline):
     model = ParticipateInElections
     fields = ('note', )
     extra = 1
 
-class PunishmentInline(admin.TabularInline):
+class PunishmentInline(admin.StackedInline):
     model = Punishment
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class AppreciationLetterInline(admin.TabularInline):
+class AppreciationLetterInline(admin.StackedInline):
     model = AppreciationLetter
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class RewardsInline(admin.TabularInline):
+class RewardsInline(admin.StackedInline):
     model = Rewards
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class VacationInline(admin.TabularInline):
+class VacationInline(admin.StackedInline):
     model = Vacation
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class AdditionalVacationInline(admin.TabularInline):
+class AdditionalVacationInline(admin.StackedInline):
     model = AdditionalVacation
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class HealthVacationInline(admin.TabularInline):
+class HealthVacationInline(admin.StackedInline):
     model = HealthVacation
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class UnpaidLeaveInline(admin.TabularInline):
+class UnpaidLeaveInline(admin.StackedInline):
     model = UnpaidLeave
     fields = ('name', 'order_id', 'order_date')
     extra = 1
 
-class BusinessTripInline(admin.TabularInline):
+class BusinessTripInline(admin.StackedInline):
     model = BusinessTrip
     fields = ('name_of_country', 'order_id', 'order_date', 'start_date', 'end_date')
     extra = 1
 
-class CarInfoInline(admin.TabularInline):
+class CarInfoInline(admin.StackedInline):
     model = CarInfo
     fields = ('name', 'date_manufacture', 'is_own')
     extra = 1
 
-class CriminalLiabilityInline(admin.TabularInline):
+class CriminalLiabilityInline(admin.StackedInline):
     model = CriminalLiability
     fields = ('name', 'date', 'court_info')
     extra = 1
 
-class RelativesLivingAbroadInline(admin.TabularInline):
+class RelativesLivingAbroadInline(admin.StackedInline):
     model = RelativesLivingAbroad
     fields = ('name', 'country_name', 'start_date', 'end_date')
     extra = 1
@@ -90,6 +90,7 @@ class PersonInformationAdmin(admin.ModelAdmin):
         'person_CarInfo__name',
     )
     list_filter = ('id', 'height', 'weight',)
+    readonly_fields = ('author', 'members')
     list_display_links = ('last_name', 'first_name',)
     list_display = ('id',
                     'last_name',
