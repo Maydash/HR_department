@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 class Logos(models.Model):
     image = models.ImageField(upload_to='logo')
@@ -31,6 +32,19 @@ class PersonInformation(models.Model):
     nationality = models.CharField(verbose_name='Milleti', max_length=100)
     address = models.CharField(verbose_name='Ýazgyda duran salgysy', max_length=250)
     exactly_address = models.CharField(verbose_name='Hakyky salgysy salgysy', max_length=250)
+    foreign_languages = models.CharField(verbose_name='Haýsy daşary ýurt dillerini bilýär', max_length=100, blank=True, null=True)
+    is_election = models.CharField(verbose_name='Saýlawly edaralara gatnaşmagy', max_length=100)
+    height = models.SmallIntegerField(verbose_name='Boýy')
+    weight = models.SmallIntegerField(verbose_name='Agramy')
+    phone_number = models.CharField(verbose_name='Telefon belgisi', max_length=12, blank=True, null=True)
+    phone_number_1 = models.CharField(verbose_name='Telefon belgisi 2', max_length=12, blank=True, null=True)
+    marital_status = models.CharField(verbose_name='Maşgala ýagdaýy', max_length=100)
+    file = models.FileField(upload_to='files/', blank=True, null=True)
+    user_group = models.ForeignKey(Group, on_delete=models.CASCADE, verbose_name='Gözegçilik edýan edara')
+
+    # TODO: maglumatlary word doc ýüklemek
+    # author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='person_author')
+    # members = models.ManyToManyField(User, related_name='person_members', blank=True)
     # person_education = models.ForeignKey(PersonEducation, on_delete=models.CASCADE, verbose_name='Bilimi barada maglumat', related_name='person_education', blank=True, null=True)
     # was_he_abroad = models.ForeignKey(WasHeAbroad, on_delete=models.CASCADE, verbose_name='Daşary ýurtda bolanmy', related_name='was_he_abroad', blank=True, null=True)
     # state_awards = models.ForeignKey(StateAwards, on_delete=models.CASCADE, verbose_name='Döwlet sylaglary barada maglumat', related_name='state_awards', blank=True, null=True)
@@ -47,17 +61,6 @@ class PersonInformation(models.Model):
     # car_info = models.ForeignKey(CarInfo, on_delete=models.CASCADE, verbose_name='Awtoulagy barada maglumat',related_name='car_info', blank=True, null=True)
     # criminal_liability = models.ForeignKey(CriminalLiability, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary jenaýat jogapkärçiligi barada maglumat',related_name='criminal_liability', blank=True, null=True)
     # relatives_living_abroad = models.ForeignKey(RelativesLivingAbroad, on_delete=models.CASCADE, verbose_name='Ýakyn garyndalaşlary daşary ýurtda ýaşaýanlar barada maglumat',related_name='relatives_living_abroad', blank=True, null=True)
-    foreign_languages = models.CharField(verbose_name='Haýsy daşary ýurt dillerini bilýär', max_length=100, blank=True, null=True)
-    is_election = models.CharField(verbose_name='Saýlawly edaralara gatnaşmagy', max_length=100)
-    height = models.SmallIntegerField(verbose_name='Boýy')
-    weight = models.SmallIntegerField(verbose_name='Agramy')
-    phone_number = models.CharField(verbose_name='Telefon belgisi', max_length=12, blank=True, null=True)
-    phone_number_1 = models.CharField(verbose_name='Telefon belgisi 2', max_length=12, blank=True, null=True)
-    marital_status = models.CharField(verbose_name='Maşgala ýagdaýy', max_length=100)
-    file = models.FileField(upload_to='files/', blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.PROTECT, related_name='person_author')
-    members = models.ManyToManyField(User, related_name='person_members', blank=True)
-    # TODO: maglumatlary word doc ýüklemek
 
     def __str__(self):
         return f'{self.last_name}, {self.first_name}'

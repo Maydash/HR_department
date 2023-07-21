@@ -1,5 +1,20 @@
+from django.contrib.auth.models import Group
 from django.contrib import admin
+from django import forms
 from .models import *
+
+class PersonInformationAdminForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        user_group = Group.objects.filter(user=self.current_user).first()
+
+        self.fields['user_group'].queryset = Group.objects.filter(pk=user_group.pk)
+    
+    class Meta:
+        model = PersonInformation
+        fields = '__all__'
 
 class PersonEducationInline(admin.StackedInline):
     model = PersonEducation
@@ -84,13 +99,15 @@ class RelativesLivingAbroadInline(admin.StackedInline):
 @admin.register(PersonInformation)
 class PersonInformationAdmin(admin.ModelAdmin):
 
+    form = PersonInformationAdminForm
+
     search_fields = (
         'first_name',
         'last_name',
         'person_CarInfo__name',
     )
+
     list_filter = ('id', 'height', 'weight',)
-    readonly_fields = ('author', 'members')
     list_display_links = ('last_name', 'first_name',)
     list_display = ('id',
                     'last_name',
@@ -99,11 +116,14 @@ class PersonInformationAdmin(admin.ModelAdmin):
                     'nationality',
                     'address',
                     'foreign_languages',
+                    'user_group',
                     'washeaboard_titles',
                     'person_education_titles',
                     'stateawards_titles',
                     )
-    inlines = [WasHeAboardInline,
+
+    inlines = [
+               WasHeAboardInline,
                PersonEducationInline,
                StateAwardsInline,
                WorkExperienceInline,
@@ -135,6 +155,18 @@ class PersonInformationAdmin(admin.ModelAdmin):
         return ', '.join([b.name_of_award for b in obj.person_StateAwards.all()])
 
     stateawards_titles.short_description = 'Döwlet sylaglary barada maglumat'
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        user_groups = Group.objects.filter(user=request.user)
+        if user_groups.exists():
+            qs = qs.filter(user_group__in=user_groups)
+        return qs
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj=obj, **kwargs)
+        form.current_user = request.user
+        return form
 
 
 # admin.site.register(Logos)
